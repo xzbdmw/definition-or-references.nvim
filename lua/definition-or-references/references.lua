@@ -8,49 +8,12 @@ local function handle_references_response(context)
   local result_entries = methods.references.result
 
   if not result_entries or vim.tbl_isempty(result_entries) then
-    if
-      (methods.definitions.result and #methods.definitions.result > 0)
-      and config.get_notify_option("on_definition_no_reference")
-    then
-      vim.notify("Cursor on definition and no references found")
-    elseif
-      (not methods.definitions.result or #methods.definitions.result == 0)
-      and config.get_notify_option("no_definition_no_reference")
-    then
-      vim.notify("No definition or references found")
-    end
-    return
-  end
-
-  if #result_entries == 1 then
-    if
-      methods.definitions.result
-      and #methods.definitions.result > 0
-      and config.get_notify_option("on_definition_one_reference")
-    then
-      vim.notify("Cursor on definition and only one reference found")
-    elseif
-      (not methods.definitions.result or #methods.definitions.result == 0)
-      and config.get_notify_option("no_definition_one_reference")
-    then
-      vim.notify("No definition but single reference found")
-    end
-    vim.lsp.util.jump_to_location(
-      result_entries[1],
-      vim.lsp.get_client_by_id(context.client_id).offset_encoding,
-      true
-    )
-
-    return
-  end
-
-  local on_references_result = config.get_config().on_references_result
+   local on_references_result = config.get_config().on_references_result
 
   if on_references_result then
     return on_references_result(result_entries)
   end
-
-  vim.lsp.handlers[methods.references.name](nil, result_entries, context)
+  end
 end
 
 local function send_references_request()
