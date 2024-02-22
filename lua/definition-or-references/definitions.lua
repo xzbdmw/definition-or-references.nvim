@@ -45,10 +45,10 @@ local function definitions()
       -- in such case fallback to references
       log.trace("definitions", "Current cursor on only definition")
 
-      if not methods.references.is_pending then
-        log.trace("definitions", "handle_references_response")
+      --if not methods.references.is_pending then
+        --log.trace("definitions", "handle_references_response")
         references.handle_references_response(context)
-      end
+      --end
     end
   )
 
